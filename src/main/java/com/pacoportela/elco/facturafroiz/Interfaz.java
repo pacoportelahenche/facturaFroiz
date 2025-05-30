@@ -15,7 +15,8 @@ import javax.swing.JProgressBar;
 /**
  * Esta clase crea una interfaz que le permitirá al usuario extraer el texto
  * de un documento PDF de una ó varias páginas, ordenarlo por orden alfabético
- * y crear un archivo con el texto ordenado. También permite separar en páginas
+ * y crear un archivo con el texto ordenado. Una segunda opción permite crear 
+ * un archivo con el texto sin ordenar. También permite separar en páginas
  * un documento PDF que contenga más de una. Finalmente permite también fusionar
  * dos ó más documentos de texto y luego ordenar alfabéticamente todo el texto
  * resultante y crear un archivo con él.
@@ -46,9 +47,10 @@ public class Interfaz extends javax.swing.JFrame {
         menuItemSalir = new javax.swing.JMenuItem();
         menuBuscar = new javax.swing.JMenu();
         menuItemOrdenar = new javax.swing.JMenuItem();
-        menuSeparar = new javax.swing.JMenuItem();
+        menuItemOriginal = new javax.swing.JMenuItem();
+        menuItemNoOrdenar = new javax.swing.JMenuItem();
+        menuItemSeparar = new javax.swing.JMenuItem();
         menuItemJuntar = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
         menuAyuda = new javax.swing.JMenu();
         menuItemAyuda = new javax.swing.JMenuItem();
 
@@ -80,13 +82,29 @@ public class Interfaz extends javax.swing.JFrame {
         });
         menuBuscar.add(menuItemOrdenar);
 
-        menuSeparar.setText("Paginar");
-        menuSeparar.addActionListener(new java.awt.event.ActionListener() {
+        menuItemOriginal.setText("Original");
+        menuItemOriginal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuSepararActionPerformed(evt);
+                menuItemOriginalActionPerformed(evt);
             }
         });
-        menuBuscar.add(menuSeparar);
+        menuBuscar.add(menuItemOriginal);
+
+        menuItemNoOrdenar.setText("NoOrdenar");
+        menuItemNoOrdenar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemNoOrdenarActionPerformed(evt);
+            }
+        });
+        menuBuscar.add(menuItemNoOrdenar);
+
+        menuItemSeparar.setText("Paginar");
+        menuItemSeparar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemSepararActionPerformed(evt);
+            }
+        });
+        menuBuscar.add(menuItemSeparar);
 
         menuItemJuntar.setText("Juntar");
         menuItemJuntar.addActionListener(new java.awt.event.ActionListener() {
@@ -95,14 +113,6 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         menuBuscar.add(menuItemJuntar);
-
-        jMenuItem1.setText("NoOrdenar");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuItemNoOrdenarActionPerformed(evt);
-            }
-        });
-        menuBuscar.add(jMenuItem1);
 
         jMenuBar1.add(menuBuscar);
 
@@ -174,10 +184,10 @@ public class Interfaz extends javax.swing.JFrame {
      * Método que se ejecuta cuando pulsamos el menuItem 'Paginar'.
      * @param evt el objeto ActionEvent que contiene los datos del evento.
      */
-    private void menuSepararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSepararActionPerformed
+    private void menuItemSepararActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSepararActionPerformed
         File factura = buscarFactura();
         paginarFactura(factura);
-    }//GEN-LAST:event_menuSepararActionPerformed
+    }//GEN-LAST:event_menuItemSepararActionPerformed
 
     /**
      * Método que se ejecuta cuando pulsamos el menuItem 'Ayuda'. Muestra una
@@ -245,6 +255,10 @@ public class Interfaz extends javax.swing.JFrame {
         JuntarFacturas jf = new JuntarFacturas(this);
     }//GEN-LAST:event_menuItemJuntarActionPerformed
 
+    /**
+     * Método que se ejecuta cuando pulsamos el menuItem 'NoOrdenar'.
+     * @param evt el objeto ActionEvent que contiene los datos del evento.
+     */
     private void menuItemNoOrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemNoOrdenarActionPerformed
         File factura = buscarFactura();
         if(factura != null && factura.getName().contains("pdf")){
@@ -254,6 +268,20 @@ public class Interfaz extends javax.swing.JFrame {
             ordenar.execute();
         }
     }//GEN-LAST:event_menuItemNoOrdenarActionPerformed
+
+    /**
+     * Método que se ejecuta cuando pulsamos el menuItem 'Original'.
+     * @param evt el objeto ActionEvent que contiene los datos del evento.
+     */
+    private void menuItemOriginalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemOriginalActionPerformed
+        File factura = buscarFactura();
+        if(factura != null && factura.getName().contains("pdf")){
+            this.etiquetaMensajes.setText("ESPERE POR FAVOR...");
+            OriginalWorker original = new OriginalWorker(this, factura);
+            original.addPropertyChangeListener(original);
+            original.execute();
+        }
+    }//GEN-LAST:event_menuItemOriginalActionPerformed
 
     /**
      * Metodo que despliega un JFileChooser para que se pueda buscar un
@@ -367,15 +395,16 @@ public class Interfaz extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel etiquetaMensajes;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JMenu menuAyuda;
     private javax.swing.JMenu menuBuscar;
     private javax.swing.JMenu menuFichero;
     private javax.swing.JMenuItem menuItemAyuda;
     private javax.swing.JMenuItem menuItemJuntar;
+    private javax.swing.JMenuItem menuItemNoOrdenar;
     private javax.swing.JMenuItem menuItemOrdenar;
+    private javax.swing.JMenuItem menuItemOriginal;
     private javax.swing.JMenuItem menuItemSalir;
-    private javax.swing.JMenuItem menuSeparar;
+    private javax.swing.JMenuItem menuItemSeparar;
     // End of variables declaration//GEN-END:variables
 }

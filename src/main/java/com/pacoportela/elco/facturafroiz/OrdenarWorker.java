@@ -41,6 +41,8 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
      * Constructor.
      * @param in la interfaz donde presentaremos la barra de progreso.
      * @param fact el fichero que contiene la factura que vamos a ordenar.
+     * @param ordenar un boolean que nos indica si queremos ordenar ó no el 
+     * documento resultante.
      */
     public OrdenarWorker(Interfaz in, File fact, boolean ordenar){
         this.interfaz = in;
@@ -116,6 +118,9 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
                     // guardamos y continuamos con la siguiente
                     if(     servidos ||
                             lineas[i].contains("POIO") ||
+                            lineas[i].contains("DISTRIBUCIONES") ||
+                            lineas[i].contains("FECHA") ||
+                            lineas[i].contains("TELE:") ||
                             lineas[i].contains("PEDIDO") || 
                             lineas[i].contains("SALDO") || 
                             lineas[i].contains("ALBARAN") || 
@@ -141,7 +146,7 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
                             lineas[i].contains("REALIZADO") || 
                             lineas[i].contains("PAGAR") || 
                             lineas[i].contains("IMPONIBLE") || 
-                            lineas[i].contains("ARTICULO"))continue;
+                            lineas[i].contains("ARTICULO")) continue;
   // recorremos los caracteres de cada linea y descartamos los que no sean
   // letras de la A a la Z. Lo hacemos para quitar los numeros de linea.
                     for(int j = 0; j < lineas[i].length(); j++){
@@ -184,7 +189,7 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
         // escribimos el fichero en el disco.
         Files.write(Paths.get(nombreFichero),
                 listaLineas,
-                Charset.forName("UTF_16"),
+                Charset.forName("ISO-8859-1"),
                 StandardOpenOption.CREATE,
                 StandardOpenOption.TRUNCATE_EXISTING);
         return null;
