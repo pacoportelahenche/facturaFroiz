@@ -86,8 +86,8 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
         // recorremos el documento pagina a pagina
         for (int page = 0; page < document.getNumberOfPages(); page++) {
             // calculamos el progreso para actualizar progress
-            Double indice = Double.valueOf(page);
-            Double total = Double.valueOf(document.getNumberOfPages()-1);
+            Double indice = Double.valueOf(page+1);
+            Double total = Double.valueOf(document.getNumberOfPages());
             double avance = (indice / total) * 100;
             progreso = (int)Math.round(avance);
             // actualizamos progress
@@ -207,7 +207,7 @@ public class OrdenarWorker extends SwingWorker<Void, Void>
             int progress = (Integer) evt.getNewValue();
             interfaz.getProgressBar().setValue(progress);
             interfaz.getEtiquetaMensajes()
-                    .setText("PAGINA: " + contador);
+                    .setText("ORDENANDO LA PÁGINA: " + contador);
         }
     }
     
